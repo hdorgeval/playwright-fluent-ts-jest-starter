@@ -1,0 +1,33 @@
+{
+  "name": "playwright-controller-ts-jest-starter",
+  "version": "1.0.0",
+  "description": "Starter project for e2e tests with playwright-controller and ts jest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hdorgeval/playwright-controller-ts-jest-starter.git"
+  },
+  "engines": {
+    "node": ">=10.15.0"
+  },
+  "keywords": [
+    "playwright",
+    "playwright-controller",
+    "fluent-api",
+    "e2e",
+    "test-automation",
+    "test-runner"
+  ],
+  "author": "Henri d'Orgeval",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hdorgeval/playwright-controller-ts-jest-starter/issues"
+  },
+  "homepage": "https://github.com/hdorgeval/playwright-controller-ts-jest-starter#readme",
+  "dependencies": {
+    "playwright-controller": "0.5.0"
+  }
+}
