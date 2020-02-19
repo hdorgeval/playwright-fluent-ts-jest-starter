@@ -4,7 +4,13 @@
   "description": "Starter project for e2e tests with playwright-controller and ts jest",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf build && npm run format && npm run lint && tsc",
+    "check-format": "prettier --list-different \"src/**/*.ts\" ",
+    "format": "prettier --write \"src/**/*.ts\" ",
+    "jest-init": "jest --init",
+    "lint": "eslint . --ext .js,.ts --format visualstudio --no-color --max-warnings 10 --report-unused-disable-directives",
+    "lint-fix": "npm run lint -- --fix",
+    "test": "jest --config=jest.config.js --runInBand",
     "tsc-init": "tsc --init",
     "tsc": " tsc --listEmittedFiles"
   },
