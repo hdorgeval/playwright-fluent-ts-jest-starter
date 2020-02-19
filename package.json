@@ -4,7 +4,9 @@
   "description": "Starter project for e2e tests with playwright-controller and ts jest",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc-init": "tsc --init",
+    "tsc": " tsc --listEmittedFiles"
   },
   "repository": {
     "type": "git",
@@ -29,5 +31,8 @@
   "homepage": "https://github.com/hdorgeval/playwright-controller-ts-jest-starter#readme",
   "dependencies": {
     "playwright-controller": "0.5.0"
+  },
+  "devDependencies": {
+    "typescript": "3.7.5"
   }
 }
