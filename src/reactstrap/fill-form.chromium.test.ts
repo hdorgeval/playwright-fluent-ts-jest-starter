@@ -67,6 +67,11 @@ describe('Selector API - Fill a form', (): void => {
       .click(formContainer.find('label').withText('Check me out'))
       .expectThatSelector(formContainer.find('label').withText('Check me out').find('input'))
       .isChecked()
+      .hover(formContainer.find('label').withText('Option three is disabled').find('input'))
+      .expectThatSelector(
+        formContainer.find('label').withText('Option three is disabled').find('input'),
+      )
+      .isDisabled()
       .click(formContainer.find('button').withText('Submit'));
 
     // Then
