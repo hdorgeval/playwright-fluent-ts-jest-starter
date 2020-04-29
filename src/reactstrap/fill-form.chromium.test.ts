@@ -23,6 +23,7 @@ describe('Selector API - Fill a form', (): void => {
 
     // When I open the Components page
 
+    // prettier-ignore
     const componentsButton = p
       .selector('div.container')
       .find('a')
@@ -32,6 +33,8 @@ describe('Selector API - Fill a form', (): void => {
     await p.click(componentsButton);
 
     // And I open the Form Component
+
+    // prettier-ignore
     const formComponent = p
       .selector('div.docs-sidebar')
       .find('li')
@@ -40,6 +43,8 @@ describe('Selector API - Fill a form', (): void => {
     await p.click(formComponent);
 
     // And I fill the Form
+
+    // prettier-ignore
     const formContainer = p
       .selector('div.docs-example')
       .nth(1)
@@ -60,12 +65,7 @@ describe('Selector API - Fill a form', (): void => {
       .typeText('bla bla bla')
       .click(formContainer.find('label').withText('Option two'))
       .click(formContainer.find('label').withText('Check me out'))
-      .expectThatSelector(
-        formContainer
-          .find('label')
-          .withText('Check me out')
-          .find('input'),
-      )
+      .expectThatSelector(formContainer.find('label').withText('Check me out').find('input'))
       .isChecked()
       .click(formContainer.find('button').withText('Submit'));
 
