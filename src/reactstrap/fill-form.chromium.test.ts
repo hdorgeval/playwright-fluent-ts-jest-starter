@@ -1,4 +1,4 @@
-import { PlaywrightFluent } from 'playwright-fluent';
+import { PlaywrightFluent, stringifyRequest, RequestInfo } from 'playwright-fluent';
 describe('Selector API - Fill a form', (): void => {
   let p: PlaywrightFluent;
   beforeEach((): void => {
@@ -19,6 +19,7 @@ describe('Selector API - Fill a form', (): void => {
       .withCursor()
       .withOptions({ headless: false })
       .emulateDevice('iPhone 11 landscape')
+      .recordRequestsTo('/components/form/?email')
       .navigateTo(url);
 
     // When I open the Components page
@@ -50,6 +51,11 @@ describe('Selector API - Fill a form', (): void => {
       .nth(1)
       .find('form');
 
+    const disabledOption = formContainer
+      .find('label')
+      .withText('Option three is disabled')
+      .find('input');
+
     await p
       .click(formContainer.find('label').withText('Email'))
       .typeText('foo@bar.com')
@@ -67,14 +73,25 @@ describe('Selector API - Fill a form', (): void => {
       .click(formContainer.find('label').withText('Check me out'))
       .expectThatSelector(formContainer.find('label').withText('Check me out').find('input'))
       .isChecked()
-      .hover(formContainer.find('label').withText('Option three is disabled').find('input'))
-      .expectThatSelector(
-        formContainer.find('label').withText('Option three is disabled').find('input'),
-      )
+      .hover(disabledOption)
+      .expectThatSelector(disabledOption)
       .isDisabled()
       .click(formContainer.find('button').withText('Submit'));
 
-    // Then
-    expect(true).toBe(true);
+    // Then the form should be submitted with url:
+    // https://reactstrap.github.io/components/form/?email=foo%40bar.com&password=don%27t+tell%21%21&select=3&selectMulti=1&selectMulti=3&selectMulti=5&text=bla+bla+bla&file=&radio1=on
+
+    await p
+      .expectThatAsyncFunc(
+        async () => (await p.getRecordedRequestsTo('/components/form/?email')).length,
+      )
+      .resolvesTo(1);
+
+    const submitRequest = p.getLastRecordedRequestTo('/components/form/?email');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const request = JSON.parse(await stringifyRequest(submitRequest!)) as RequestInfo;
+    expect(request.url).toContain('email=foo%40bar.com');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(request.response!.status).toBe(200);
   });
 });
