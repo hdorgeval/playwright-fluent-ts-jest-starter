@@ -56,6 +56,12 @@ describe('Selector API - Fill a form', (): void => {
       .withText('Option three is disabled')
       .find('input');
 
+    // prettier-ignore
+    const checkMeOut = formContainer
+      .find('label')
+      .withText('Check me out')
+      .find('input');
+
     await p
       .click(formContainer.find('label').withText('Email'))
       .typeText('foo@bar.com')
@@ -70,8 +76,8 @@ describe('Selector API - Fill a form', (): void => {
       .click(formContainer.find('label').withText('Text Area'))
       .typeText('bla bla bla')
       .click(formContainer.find('label').withText('Option two'))
-      .click(formContainer.find('label').withText('Check me out'))
-      .expectThatSelector(formContainer.find('label').withText('Check me out').find('input'))
+      .check(checkMeOut)
+      .expectThatSelector(checkMeOut)
       .isChecked()
       .hover(disabledOption)
       .expectThatSelector(disabledOption)
