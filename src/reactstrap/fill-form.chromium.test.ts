@@ -1,3 +1,4 @@
+import { openReactstrapWebsite, openComponentsPage, openFormComponent } from './reactstrap.stories';
 import { PlaywrightFluent, stringifyRequest, RequestInfo } from 'playwright-fluent';
 describe('Selector API - Fill a form', (): void => {
   let p: PlaywrightFluent;
@@ -7,7 +8,7 @@ describe('Selector API - Fill a form', (): void => {
   });
   afterEach(
     async (): Promise<void> => {
-      await p.close();
+      await p.close({ timeoutInMilliseconds: 1000 });
     },
   );
 
@@ -99,5 +100,36 @@ describe('Selector API - Fill a form', (): void => {
     expect(request.url).toContain('email=foo%40bar.com');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(request.response!.status).toBe(200);
+  });
+
+  test('should target input by its placeholder', async (): Promise<void> => {
+    // Given I open The ReactStrap demo site/Components/form
+    await p
+      .runStory(openReactstrapWebsite)
+      .runStory(openComponentsPage)
+      .runStory(openFormComponent);
+
+    // prettier-ignore
+    const formContainer = p
+      .selector('div.docs-example')
+      .nth(1)
+      .find('form');
+
+    // When
+    const emailInput = formContainer.find('input').withPlaceholder('with a placeholder');
+
+    // prettier-ignore
+    await p
+      .click(emailInput)
+      .typeText('foo@bar.com');
+
+    // Then
+    await p
+      .expectThatSelector(emailInput)
+      .hasPlaceholder('with a placeholder')
+      .expectThatSelector(emailInput)
+      .hasExactValue('foo@bar.com')
+      .expectThatSelector(emailInput)
+      .hasFocus();
   });
 });
