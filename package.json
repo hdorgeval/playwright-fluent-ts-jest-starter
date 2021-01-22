@@ -37,8 +37,8 @@
   },
   "homepage": "https://github.com/hdorgeval/playwright-fluent-ts-jest-starter#readme",
   "dependencies": {
-    "playwright": "1.2.1",
-    "playwright-fluent": "1.4.0"
+    "playwright": "1.8.0",
+    "playwright-fluent": "1.18.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.5",
